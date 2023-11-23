@@ -2,7 +2,7 @@
 const assert = require('assert');
 
 // Importing the function to be tested i.e.calculateNumber()
-const calculateNumber = require('./0-calcul.js');
+const calculateNumber = require('./0-calcul');
 
 describe('calculateNumber', () => {
   // Test case: it should round the first parameter and return the sum
