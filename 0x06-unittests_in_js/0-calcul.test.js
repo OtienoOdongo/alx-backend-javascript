@@ -4,7 +4,6 @@ const assert = require('assert');
 // Importing the function to be tested i.e.calculateNumber()
 const calculateNumber = require('./0-calcul.js');
 
-// Test suite for the calculateNumber function
 describe('calculateNumber', () => {
   // Test case: it should round the first parameter and return the sum
   it('should round the first parameter and return the sum', () => {
@@ -24,5 +23,28 @@ describe('calculateNumber', () => {
     assert.equal(calculateNumber(1.5, 3.7), 6);
     // Test when the second parameter is zero
     assert.equal(calculateNumber(1, 0), 1);
+  });
+
+  // Test case: it should handle both parameters as whole numbers
+  it('should handle both parameters as whole numbers', () => {
+    assert.equal(calculateNumber(2, 3), 5);
+    assert.equal(calculateNumber(10, 5), 15);
+  });
+
+  // Test case: it should handle both parameters as decimal numbers
+  it('should handle both parameters as decimal numbers', () => {
+    assert.equal(calculateNumber(2.5, 3.8), 7);
+    assert.equal(calculateNumber(1.1, 2.9), 4);
+  });
+
+  // Test case: it should handle one parameter as zero
+  it('should handle one parameter as zero', () => {
+    assert.equal(calculateNumber(0, 5), 5);
+    assert.equal(calculateNumber(3, 0), 3);
+  });
+
+  // Test case: it should handle both parameters as zero
+  it('should handle both parameters as zero', () => {
+    assert.equal(calculateNumber(0, 0), 0);
   });
 });
