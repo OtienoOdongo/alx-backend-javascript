@@ -1,28 +1,36 @@
 const express = require('express');
-const students = require('./3-read_file_async');
+const fs = require('fs');
 
 const app = express();
-const hostname = '127.0.0.1';
 const port = 1245;
 
 app.get('/', (req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
   res.send('Hello Holberton School!');
 });
 
-app.get('/students', async (req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.write('This is the list of our students\n');
-  await students(process.argv[2]).then((data) => {
-    res.write(`Number of students: ${data.students.length}\n`);
-    res.write(`Number of students in CS: ${data.csStudents.length}. List: ${data.csStudents.join(', ')}\n`);
-    res.write(`Number of students in SWE: ${data.sweStudents.length}. List: ${data.sweStudents.join(', ')}`);
-  }).catch((err) => res.write(err.message))
-    .finally(() => {
-      res.end();
-    });
+app.get('/students', (req, res) => {
+  const databaseFileName = '/alx-backend-javascript/0x05-Node_JS_basic';
+
+  // Read the content of the CSV file asynchronously
+  fs.readFile(databaseFileName, 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+
+    // Split the content into lines
+    const lines = data.split('\n');
+
+    // Filter out empty lines
+    const nonEmptyLines = lines.filter((line) => line.trim() !== '');
+
+    // Display the non-empty lines in the response
+    const result = nonEmptyLines.join('\n');
+    res.send(`This is the list of our students:\n${result}`);
+  });
 });
 
-app.listen(port, hostname);
+app.listen(port);
+
+module.exports = app;
